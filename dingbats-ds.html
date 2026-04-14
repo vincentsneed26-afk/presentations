@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dingbats Design System Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #FCFCFB;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F7F7F5;
+      --bg-sunken: #EFEFEA;
+      --text-primary: #1B1B19;
+      --text-secondary: #575750;
+      --text-tertiary: #76766F;
+      --text-inverse: #FFFFFF;
+      --border-default: #E4E4DE;
+      --border-strong: #D2D2CB;
+      --primary-50: #FFF1F1;
+      --primary-100: #FFD9D8;
+      --primary-200: #FFB3B0;
+      --primary-300: #FF8A84;
+      --primary-400: #FF5F57;
+      --primary-500: #FF3B30;
+      --primary-600: #E1271D;
+      --primary-700: #B81C14;
+      --primary-800: #8F1610;
+      --primary-900: #6C110C;
+      --success: #1F8A52;
+      --warning: #A86510;
+      --danger: #BF3B37;
+      --info: #2C6ECB;
+      --focus: #FF5F57;
+      --shadow-1: 0 1px 2px rgba(27,27,25,0.06), 0 2px 8px rgba(27,27,25,0.04);
+      --shadow-2: 0 4px 16px rgba(27,27,25,0.08);
+      --shadow-3: 0 10px 30px rgba(27,27,25,0.12);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 999px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 40px;
+      --space-8: 48px;
+      --space-9: 64px;
+      --space-10: 80px;
+      --type-display-xl: clamp(2.5rem, 1.94rem + 2.3vw, 4rem);
+      --type-display-lg: clamp(2rem, 1.64rem + 1.55vw, 3rem);
+      --type-heading-xl: clamp(1.75rem, 1.54rem + 0.9vw, 2.25rem);
+      --type-heading-lg: clamp(1.5rem, 1.36rem + 0.6vw, 1.875rem);
+      --type-heading-md: clamp(1.25rem, 1.16rem + 0.38vw, 1.5rem);
+      --type-body-lg: clamp(1.125rem, 1.08rem + 0.2vw, 1.25rem);
+      --type-body-md: 1rem;
+      --type-body-sm: 0.875rem;
+      --type-caption: 0.75rem;
+      --content-max: 1440px;
+      --grid-gutter: 24px;
+      --grid-margin: 32px;
+      --transition: 180ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-canvas: #161715;
+      --bg-surface: #1D1F1C;
+      --bg-subtle: #242723;
+      --bg-sunken: #111210;
+      --text-primary: #F7F7F5;
+      --text-secondary: #D2D2CB;
+      --text-tertiary: #A3A39B;
+      --text-inverse: #111210;
+      --border-default: #2F322E;
+      --border-strong: #41463F;
+      --focus: #FF8A84;
+      --shadow-1: 0 1px 2px rgba(0,0,0,0.24), 0 2px 8px rgba(0,0,0,0.18);
+      --shadow-2: 0 4px 16px rgba(0,0,0,0.28);
+      --shadow-3: 0 10px 30px rgba(0,0,0,0.34);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+      border-radius: 10px;
+    }
+    .shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      background: color-mix(in srgb, var(--bg-surface) 80%, var(--bg-subtle));
+      border-right: 1px solid var(--border-default);
+      padding: var(--space-6);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary-700), var(--primary-500));
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 700;
+      box-shadow: var(--shadow-1);
+    }
+    .brand-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      color: var(--text-secondary);
+      font-size: var(--type-caption);
+    }
+    .theme-toggle {
+      border: 1px solid var(--border-default);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .theme-toggle:hover { background: var(--bg-subtle); }
+    .nav-group { margin-bottom: var(--space-6); }
+    .nav-label {
+      color: var(--text-tertiary);
+      font-size: var(--type-caption);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-3);
+    }
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 6px;
+    }
+    .nav-list a {
+      display: block;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+    }
+    .nav-list a:hover,
+    .nav-list a:focus-visible {
+      background: var(--primary-50);
+      color: var(--primary-800);
+    }
+    .content {
+      min-width: 0;
+    }
+    .hero {
+      padding: var(--space-8) clamp(20px, 3vw, 40px) var(--space-6);
+      border-bottom: 1px solid var(--border-default);
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--primary-100) 90%, transparent) 0%, transparent 34%),
+        var(--bg-canvas);
+    }
+    .hero-inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      gap: var(--space-7);
+      align-items: end;
+    }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--primary-50);
+      color: var(--primary-800);
+      font-size: var(--type-caption);
+      font-weight: 600;
+      margin-bottom: var(--space-4);
+    }
+    h1 {
+      margin: 0 0 var(--space-4);
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: var(--type-display-xl);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      font-weight: 500;
+      max-width: 11ch;
+    }
+    .hero p {
+      margin: 0;
+      font-size: var(--type-body-lg);
+      color: var(--text-secondary);
+      max-width: 62ch;
+    }
+    .hero-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-2);
+      padding: var(--space-6);
+    }
+    .hero-card h2 {
+      margin: 0 0 var(--space-3);
+      font-size: var(--type-heading-md);
+    }
+    .hero-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text-secondary);
+      display: grid;
+      gap: var(--space-2);
+    }
+    .section {
+      padding: var(--space-8) clamp(20px, 3vw, 40px);
+    }
+    .section-inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+    }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: var(--space-5);
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+    }
+    .section-kicker {
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--type-caption);
+      margin-bottom: var(--space-2);
+    }
+    .section-title {
+      margin: 0;
+      font-size: var(--type-heading-xl);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+    .section-desc {
+      margin: var(--space-2) 0 0;
+      color: var(--text-secondary);
+      max-width: 64ch;
+    }
+    .grid-2, .grid-3, .grid-4 {
+      display: grid;
+      gap: var(--space-5);
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-1);
+    }
+    .card h3, .card h4 {
+      margin: 0 0 var(--space-3);
+      font-size: var(--type-heading-md);
+      line-height: 1.2;
+    }
+    .card p, .card li { color: var(--text-secondary); }
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-4);
+    }
+    .swatch {
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg-surface);
+    }
+    .swatch-sample { height: 84px; }
+    .swatch-meta {
+      padding: var(--space-3);
+      border-top: 1px solid var(--border-default);
+      font-size: var(--type-caption);
+    }
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-1);
+    }
+    .token-table th,
+    .token-table td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-default);
+      vertical-align: top;
+    }
+    .token-table th {
+      color: var(--text-secondary);
+      font-size: var(--type-caption);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--bg-subtle);
+    }
+    .token-table tr:last-child td { border-bottom: none; }
+    .type-sample {
+      display: grid;
+      gap: var(--space-4);
+    }
+    .type-row {
+      border-bottom: 1px solid var(--border-default);
+      padding-bottom: var(--space-4);
+    }
+    .type-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .type-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--text-tertiary);
+      font-size: var(--type-caption);
+      margin-bottom: 8px;
+    }
+    .display-xl { font-family: "Instrument Serif", Georgia, serif; font-size: var(--type-display-xl); line-height: 1.02; }
+    .display-lg { font-family: "Instrument Serif", Georgia, serif; font-size: var(--type-display-lg); line-height: 1.05; }
+    .heading-xl { font-size: var(--type-heading-xl); font-weight: 600; line-height: 1.1; }
+    .heading-lg { font-size: var(--type-heading-lg); font-weight: 600; line-height: 1.15; }
+    .heading-md { font-size: var(--type-heading-md); font-weight: 600; line-height: 1.2; }
+    .body-lg { font-size: var(--type-body-lg); }
+    .body-md { font-size: var(--type-body-md); }
+    .body-sm { font-size: var(--type-body-sm); font-weight: 500; }
+    .caption { font-size: var(--type-caption); font-weight: 500; }
+    .grid-demo {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--grid-gutter);
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      background: repeating-linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--primary-100) 60%, transparent) 0,
+        color-mix(in srgb, var(--primary-100) 60%, transparent) calc((100% - 11 * var(--grid-gutter)) / 12),
+        transparent calc((100% - 11 * var(--grid-gutter)) / 12),
+        transparent calc((100% - 11 * var(--grid-gutter)) / 12 + var(--grid-gutter))
+      );
+      min-height: 160px;
+      align-items: end;
+      overflow: auto;
+    }
+    .grid-block {
+      background: color-mix(in srgb, var(--primary-700) 86%, white 14%);
+      color: white;
+      border-radius: 10px;
+      padding: var(--space-4);
+      min-height: 96px;
+      display: flex;
+      align-items: end;
+      font-size: var(--type-caption);
+      font-weight: 600;
+    }
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+    .component-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-1);
+    }
+    .component-card h3 {
+      margin: 0 0 var(--space-2);
+      font-size: 1.0625rem;
+    }
+    .component-meta {
+      color: var(--text-tertiary);
+      font-size: var(--type-caption);
+      margin-bottom: var(--space-4);
+    }
+    .pill-row, .state-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: var(--space-3);
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-default);
+      color: var(--text-secondary);
+      font-size: var(--type-caption);
+      font-weight: 600;
+    }
+    .pill.success { background: #EDF8F1; color: #185F3C; border-color: rgba(31,138,82,0.18); }
+    .pill.warning { background: #FFF6E8; color: #8A5710; border-color: rgba(168,101,16,0.18); }
+    .pill.danger { background: #FDEEEE; color: #972E2B; border-color: rgba(191,59,55,0.18); }
+    .pill.info { background: #EEF4FF; color: #255AA3; border-color: rgba(44,110,203,0.18); }
+    .state { padding: 6px 10px; border-radius: 999px; background: var(--primary-50); color: var(--primary-800); font-size: var(--type-caption); font-weight: 600; }
+    .spec-list {
+      display: grid;
+      gap: var(--space-3);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .spec-list li strong { display: inline-block; min-width: 108px; color: var(--text-primary); }
+    .code-block {
+      background: var(--bg-sunken);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      overflow: auto;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+    .principle {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+    }
+    .principle h3 { margin: 0 0 var(--space-2); }
+    .dosdonts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+    .dosdonts ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 10px;
+      color: var(--text-secondary);
+    }
+    .footer {
+      padding: var(--space-8) clamp(20px, 3vw, 40px);
+      border-top: 1px solid var(--border-default);
+      color: var(--text-secondary);
+    }
+    .footer-inner { max-width: var(--content-max); margin: 0 auto; }
+    .compact-note {
+      display: inline-block;
+      margin-top: var(--space-3);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-size: var(--type-caption);
+    }
+
+    @media (max-width: 1180px) {
+      .hero-inner, .grid-3, .grid-4, .principles, .component-grid, .dosdonts { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 960px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-default);
+      }
+      .nav-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .hero, .section, .footer { padding-left: 16px; padding-right: 16px; }
+      .nav-list { grid-template-columns: 1fr; }
+      .grid-demo { min-width: 800px; }
+      .token-table { display: block; overflow-x: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <div class="brand-mark">D</div>
+          <div>
+            <div class="brand-title">Dingbats</div>
+            <div class="brand-subtitle">Design System Review</div>
+          </div>
+        </div>
+        <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">Theme</button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Overview</div>
+        <ul class="nav-list">
+          <li><a href="#vision">Vision</a></li>
+          <li><a href="#principles">Principles</a></li>
+          <li><a href="#foundations">Foundations</a></li>
+          <li><a href="#components">Components</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Foundations</div>
+        <ul class="nav-list">
+          <li><a href="#color">Color</a></li>
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#grid">Grid</a></li>
+          <li><a href="#spacing">Spacing</a></li>
+          <li><a href="#motion">Motion</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">System</div>
+        <ul class="nav-list">
+          <li><a href="#patterns">Patterns</a></li>
+          <li><a href="#tokens">Tokens JSON</a></li>
+          <li><a href="#developer-guide">Developer guide</a></li>
+          <li><a href="#governance">Governance</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="hero" id="vision">
+        <div class="hero-inner">
+          <div>
+            <div class="eyebrow">Publish-ready · team review edition</div>
+            <h1>Dingbats, designed with calm precision.</h1>
+            <p>A complete design system for product, marketing, and editorial surfaces. It balances warmth and utility, supports scale, and gives the Dingbats team one shared language for decisions, implementation, and critique.</p>
+          </div>
+          <div class="hero-card">
+            <h2>What this review covers</h2>
+            <ul>
+              <li>Foundational decisions: color, typography, grid, spacing, motion, and accessibility.</li>
+              <li>Forty core UI components with anatomy, states, usage guidance, and implementation cues.</li>
+              <li>Patterns, token strategy, and engineering guidance for a durable design-to-code workflow.</li>
+            </ul>
+            <span class="compact-note">Prepared for team review, alignment, and iteration.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="principles">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Principles</div>
+              <h2 class="section-title">System values</h2>
+              <p class="section-desc">These principles define how the interface should feel and how trade-offs should be resolved when the system is extended.</p>
+            </div>
+          </div>
+          <div class="principles">
+            <article class="principle">
+              <h3>Clarity first</h3>
+              <p>Hierarchy, spacing, and behavior should explain the interface before decoration or explanation is needed.</p>
+            </article>
+            <article class="principle">
+              <h3>Calm precision</h3>
+              <p>The product should feel intelligent and composed. Motion is brief, emphasis is controlled, and noise is removed.</p>
+            </article>
+            <article class="principle">
+              <h3>Accessible by default</h3>
+              <p>Contrast, labels, focus, touch targets, and keyboard support are default requirements, not finishing tasks.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="foundations">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Foundations</div>
+              <h2 class="section-title">The structural layer</h2>
+              <p class="section-desc">The system is neutral-led, editorial in tone, and operationally sharp. Primary red orients action, while surfaces and type do most of the communicative work.</p>
+            </div>
+          </div>
+          <div class="grid-3">
+            <article class="card">
+              <h3>Brand posture</h3>
+              <p>Playful in name, not childish in expression. Warm, literate, composed, and quietly witty.</p>
+            </article>
+            <article class="card">
+              <h3>Visual bias</h3>
+              <p>Neutral surfaces, restrained color, subtle editorial softness, and disciplined interface geometry.</p>
+            </article>
+            <article class="card">
+              <h3>Product bias</h3>
+              <p>Reduce noise, support reading and making, and preserve one clear action per region whenever possible.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="color">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Color</div>
+              <h2 class="section-title">Neutral-led with a bright red primary</h2>
+              <p class="section-desc">Use color to orient action and feedback, not to decorate structure. Most of the interface should live in neutral surfaces.</p>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:24px;">
+            <h3>Primary palette</h3>
+            <div class="swatch-grid">
+              <div class="swatch"><div class="swatch-sample" style="background:#FFF1F1"></div><div class="swatch-meta">Primary 50<br>#FFF1F1</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#FFD9D8"></div><div class="swatch-meta">Primary 100<br>#FFD9D8</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#FFB3B0"></div><div class="swatch-meta">Primary 200<br>#FFB3B0</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#FF8A84"></div><div class="swatch-meta">Primary 300<br>#FF8A84</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#FF5F57"></div><div class="swatch-meta">Primary 400<br>#FF5F57</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#FF3B30"></div><div class="swatch-meta">Primary 500<br>#FF3B30</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#E1271D"></div><div class="swatch-meta">Primary 600<br>#E1271D</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#B81C14"></div><div class="swatch-meta">Primary 700<br>#B81C14</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#8F1610"></div><div class="swatch-meta">Primary 800<br>#8F1610</div></div>
+              <div class="swatch"><div class="swatch-sample" style="background:#6C110C"></div><div class="swatch-meta">Primary 900<br>#6C110C</div></div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <article class="card">
+              <h3>Semantic tones</h3>
+              <div class="pill-row">
+                <span class="pill success">Success · #1F8A52</span>
+                <span class="pill warning">Warning · #A86510</span>
+                <span class="pill danger">Danger · #BF3B37</span>
+                <span class="pill info">Info · #2C6ECB</span>
+              </div>
+              <p>Semantic colors are reserved for feedback, system status, and validation. They should never compete with the primary action color.</p>
+            </article>
+            <article class="card">
+              <h3>Usage rules</h3>
+              <ul>
+                <li>Use neutral surfaces for 80–90% of interface area.</li>
+                <li>Use one dominant primary CTA per view.</li>
+                <li>Prefer tinted surfaces over thick status borders.</li>
+                <li>Do not use color as the only state indicator.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="typography">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Typography</div>
+              <h2 class="section-title">Editorial warmth, product clarity</h2>
+              <p class="section-desc">Instrument Serif appears only in large, intentional moments. Inter carries everything operational: navigation, forms, tables, labels, and dense workflows.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="type-sample">
+              <div class="type-row">
+                <div class="type-meta"><span>type.display.xl</span><span>40 → 64px</span><span>Instrument Serif</span></div>
+                <div class="display-xl">Dingbats creates room for ideas.</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><span>type.display.lg</span><span>32 → 48px</span><span>Instrument Serif</span></div>
+                <div class="display-lg">Character belongs in moments, not in every line.</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><span>type.heading.xl</span><span>28 → 36px</span><span>Inter 600</span></div>
+                <div class="heading-xl">Design system foundations</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><span>type.heading.lg</span><span>24 → 30px</span><span>Inter 600</span></div>
+                <div class="heading-lg">Page titles and major group headers</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><span>type.heading.md</span><span>20 → 24px</span><span>Inter 600</span></div>
+                <div class="heading-md">Cards, dialogs, and sub-sections</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><span>type.body.lg</span><span>18 → 20px</span><span>Inter 400</span></div>
+                <div class="body-lg">Use this for introductory copy where a little more openness improves reading comfort.</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><span>type.body.md</span><span>16px</span><span>Inter 400</span></div>
+                <div class="body-md">This is the default body size for product surfaces, documentation, forms, and standard content blocks.</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><span>type.body.sm</span><span>14px</span><span>Inter 500</span></div>
+                <div class="body-sm">Buttons, labels, compact navigation, and interface control text.</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><span>type.caption</span><span>12px</span><span>Inter 500</span></div>
+                <div class="caption">Metadata, helper text, timestamps, and tertiary signals.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="grid">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Layout</div>
+              <h2 class="section-title">12-column grid, 8px rhythm</h2>
+              <p class="section-desc">The system aligns to a 12-column desktop grid, 8-column tablet grid, and 4-column mobile grid. One intentional break per page is enough.</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <article class="card">
+              <h3>Grid demo</h3>
+              <div class="grid-demo" aria-label="12-column grid example">
+                <div class="grid-block span-2">Nav rail · 2</div>
+                <div class="grid-block span-6">Main content · 6</div>
+                <div class="grid-block span-4">Insights · 4</div>
+              </div>
+            </article>
+            <article class="card">
+              <h3>Grid rules</h3>
+              <ul>
+                <li>Desktop: 12 columns, 24px gutter, 32px outer margin.</li>
+                <li>Tablet: 8 columns, 20px gutter, 24px outer margin.</li>
+                <li>Mobile: 4 columns, 16px gutter, 16px outer margin.</li>
+                <li>Forms generally cap at 6 columns for readability.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="spacing">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Spacing</div>
+              <h2 class="section-title">An 8px system with disciplined exceptions</h2>
+              <p class="section-desc">Most spacing and sizing decisions sit on the 8px scale. 4px is reserved for fine adjustments like icon gaps and compact chips.</p>
+            </div>
+          </div>
+          <table class="token-table">
+            <thead>
+              <tr><th>Token</th><th>Value</th><th>Typical use</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>space.1</td><td>4px</td><td>Micro spacing, optical nudges, compact chips</td></tr>
+              <tr><td>space.2</td><td>8px</td><td>Icon gaps, compact control padding</td></tr>
+              <tr><td>space.4</td><td>16px</td><td>Text separation, default internal spacing</td></tr>
+              <tr><td>space.5</td><td>24px</td><td>Card padding, grouped controls</td></tr>
+              <tr><td>space.6</td><td>32px</td><td>Section sub-groups, larger cards</td></tr>
+              <tr><td>space.8</td><td>48px</td><td>Section spacing in standard views</td></tr>
+              <tr><td>space.11</td><td>96px</td><td>Large editorial or marketing separation</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="motion">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Motion</div>
+              <h2 class="section-title">Brief, useful, and calm</h2>
+              <p class="section-desc">Controls should react quickly. Containers can take slightly longer. Motion should communicate state change, spatial relationship, and confirmation, never spectacle.</p>
+            </div>
+          </div>
+          <div class="grid-3">
+            <article class="card"><h3>Fast</h3><p>160ms for controls, hover, pressed, and small state changes.</p></article>
+            <article class="card"><h3>Standard</h3><p>240ms for menus, drawers, toasts, and local view transitions.</p></article>
+            <article class="card"><h3>Large</h3><p>320ms for modal entry, layout shifts, and broader context changes.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="components">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Components</div>
+              <h2 class="section-title">Forty core building blocks</h2>
+              <p class="section-desc">Each component follows the same review model: anatomy, states, usage guidance, accessibility requirements, and code cues.</p>
+            </div>
+          </div>
+
+          <div class="component-grid">
+            <article class="component-card"><h3>1. Button</h3><div class="component-meta">Primary, secondary, tertiary, destructive</div><ul class="spec-list"><li><strong>Anatomy</strong>Container, label, optional leading/trailing icon, focus ring.</li><li><strong>Usage</strong>One primary action per region.</li><li><strong>Accessibility</strong>44px minimum height, loading preserves context.</li><li><strong>Code</strong>44/52px heights, padded via spacing tokens.</li></ul><div class="state-row"><span class="state">default</span><span class="state">hover</span><span class="state">pressed</span><span class="state">focus</span><span class="state">disabled</span><span class="state">loading</span></div></article>
+            <article class="component-card"><h3>2. Icon button</h3><div class="component-meta">Utility and toolbar action</div><ul class="spec-list"><li><strong>Anatomy</strong>Frame, icon, focus ring, tooltip trigger area.</li><li><strong>Usage</strong>Toolbar actions, dismiss, utilities.</li><li><strong>Accessibility</strong>Requires clear `aria-label`.</li><li><strong>Code</strong>40px min, 44px on touch surfaces.</li></ul><div class="state-row"><span class="state">default</span><span class="state">selected</span><span class="state">disabled</span></div></article>
+            <article class="component-card"><h3>3. Segmented control</h3><div class="component-meta">View switching for related options</div><ul class="spec-list"><li><strong>Anatomy</strong>Track, segments, active indicator.</li><li><strong>Usage</strong>Swap tightly related views.</li><li><strong>Accessibility</strong>Tablist or radio semantics depending on behavior.</li><li><strong>Code</strong>Indicator moves with transform.</li></ul></article>
+            <article class="component-card"><h3>4. Link</h3><div class="component-meta">Navigation, not button behavior</div><ul class="spec-list"><li><strong>Anatomy</strong>Label, optional icon, underline cue.</li><li><strong>Usage</strong>Navigation and references.</li><li><strong>Accessibility</strong>Hover/focus must not rely on color only.</li><li><strong>Code</strong>Underline offset 2px.</li></ul></article>
+            <article class="component-card"><h3>5. Text field</h3><div class="component-meta">Short text input</div><ul class="spec-list"><li><strong>Anatomy</strong>Label, field, helper, error, prefix/suffix.</li><li><strong>Usage</strong>Name, title, URL, compact content entry.</li><li><strong>Accessibility</strong>Associate help and error through IDs.</li><li><strong>Code</strong>48px height, 12px × 16px padding.</li></ul></article>
+            <article class="component-card"><h3>6. Text area</h3><div class="component-meta">Longer freeform input</div><ul class="spec-list"><li><strong>Anatomy</strong>Label, field, count, helper or error.</li><li><strong>Usage</strong>Descriptions, prompts, notes.</li><li><strong>Accessibility</strong>Convey limit and validation text programmatically.</li><li><strong>Code</strong>Min-height 120px, vertical resize only.</li></ul></article>
+            <article class="component-card"><h3>7. Search field</h3><div class="component-meta">Search and command entry</div><ul class="spec-list"><li><strong>Anatomy</strong>Search icon, input, clear action.</li><li><strong>Usage</strong>Top-level search and large data surfaces.</li><li><strong>Accessibility</strong>Clear action needs explicit label.</li><li><strong>Code</strong>Supports debounce and keyboard results.</li></ul></article>
+            <article class="component-card"><h3>8. Select</h3><div class="component-meta">Constrained option list</div><ul class="spec-list"><li><strong>Anatomy</strong>Label, value, chevron, menu.</li><li><strong>Usage</strong>Finite options, compact forms.</li><li><strong>Accessibility</strong>Prefer native select on mobile where possible.</li><li><strong>Code</strong>Menu max-height 320px.</li></ul></article>
+            <article class="component-card"><h3>9. Combobox</h3><div class="component-meta">Searchable structured selection</div><ul class="spec-list"><li><strong>Anatomy</strong>Input, current value, result list.</li><li><strong>Usage</strong>Tags, assignees, long option sets.</li><li><strong>Accessibility</strong>Follow ARIA combobox patterns accurately.</li><li><strong>Code</strong>Virtualize lists over 200 items.</li></ul></article>
+            <article class="component-card"><h3>10. Checkbox</h3><div class="component-meta">Multiple independent selections</div><ul class="spec-list"><li><strong>Anatomy</strong>Box, mark, label, help.</li><li><strong>Usage</strong>Independent choices and multi-select lists.</li><li><strong>Accessibility</strong>44px hit target, indeterminate supported.</li><li><strong>Code</strong>Tree selection can expose partial state.</li></ul></article>
+            <article class="component-card"><h3>11. Radio</h3><div class="component-meta">Single visible choice</div><ul class="spec-list"><li><strong>Anatomy</strong>Control, dot, label, helper.</li><li><strong>Usage</strong>Mutually exclusive options.</li><li><strong>Accessibility</strong>Group inside fieldset and legend.</li><li><strong>Code</strong>Use card variants only when description length requires it.</li></ul></article>
+            <article class="component-card"><h3>12. Switch</h3><div class="component-meta">Immediate binary setting</div><ul class="spec-list"><li><strong>Anatomy</strong>Track, thumb, optional state label.</li><li><strong>Usage</strong>On/off settings with immediate effect.</li><li><strong>Accessibility</strong>Label should describe result.</li><li><strong>Code</strong>Recommended size 52×32px.</li></ul></article>
+            <article class="component-card"><h3>13. Slider</h3><div class="component-meta">Range adjustment</div><ul class="spec-list"><li><strong>Anatomy</strong>Track, fill, thumb, value cue.</li><li><strong>Usage</strong>Immediate value tuning.</li><li><strong>Accessibility</strong>Arrow-key support required.</li><li><strong>Code</strong>24px minimum thumb target.</li></ul></article>
+            <article class="component-card"><h3>14. Stepper</h3><div class="component-meta">Bounded numeric control</div><ul class="spec-list"><li><strong>Anatomy</strong>Minus, value, plus.</li><li><strong>Usage</strong>Quantities and bounded increments.</li><li><strong>Accessibility</strong>Buttons need explicit action labels.</li><li><strong>Code</strong>Handle long-press carefully.</li></ul></article>
+            <article class="component-card"><h3>15. Date picker</h3><div class="component-meta">Date and range selection</div><ul class="spec-list"><li><strong>Anatomy</strong>Field trigger, calendar, navigation, day cells.</li><li><strong>Usage</strong>Scheduling and filtering.</li><li><strong>Accessibility</strong>Full keyboard calendar behavior required.</li><li><strong>Code</strong>Mobile should prefer sheet-style presentation.</li></ul></article>
+            <article class="component-card"><h3>16. Tag / chip</h3><div class="component-meta">Filter and selected value token</div><ul class="spec-list"><li><strong>Anatomy</strong>Container, label, icon/avatar, remove affordance.</li><li><strong>Usage</strong>Filters, metadata, selected values.</li><li><strong>Accessibility</strong>Separate removal target must be focusable.</li><li><strong>Code</strong>Offer compact and default sizes.</li></ul></article>
+            <article class="component-card"><h3>17. Badge</h3><div class="component-meta">Short status marker</div><ul class="spec-list"><li><strong>Anatomy</strong>Pill, short label, optional dot.</li><li><strong>Usage</strong>Status, counts, labels.</li><li><strong>Accessibility</strong>Maintain high contrast in tinted fills.</li><li><strong>Code</strong>24px minimum height.</li></ul></article>
+            <article class="component-card"><h3>18. Tooltip</h3><div class="component-meta">Supplementary clarification</div><ul class="spec-list"><li><strong>Anatomy</strong>Trigger, floating label, optional arrow.</li><li><strong>Usage</strong>Clarify icons and dense controls.</li><li><strong>Accessibility</strong>Reveal on focus and dismiss with escape.</li><li><strong>Code</strong>240px max width.</li></ul></article>
+            <article class="component-card"><h3>19. Popover</h3><div class="component-meta">Anchored contextual surface</div><ul class="spec-list"><li><strong>Anatomy</strong>Trigger, container, body, optional actions.</li><li><strong>Usage</strong>Contextual content and lightweight tasks.</li><li><strong>Accessibility</strong>Manage focus intentionally on open/close.</li><li><strong>Code</strong>8px anchor offset.</li></ul></article>
+            <article class="component-card"><h3>20. Dropdown menu</h3><div class="component-meta">Secondary action list</div><ul class="spec-list"><li><strong>Anatomy</strong>Trigger, menu, items, shortcuts, dividers.</li><li><strong>Usage</strong>Utility actions and compact menus.</li><li><strong>Accessibility</strong>Arrow navigation and escape close.</li><li><strong>Code</strong>36–40px item height.</li></ul></article>
+            <article class="component-card"><h3>21. Command palette</h3><div class="component-meta">Power search and action</div><ul class="spec-list"><li><strong>Anatomy</strong>Modal shell, search, grouped results.</li><li><strong>Usage</strong>Quick actions and route jumping.</li><li><strong>Accessibility</strong>Labelled dialog semantics required.</li><li><strong>Code</strong>Max width 720px.</li></ul></article>
+            <article class="component-card"><h3>22. Tabs</h3><div class="component-meta">Parallel content sections</div><ul class="spec-list"><li><strong>Anatomy</strong>Tab list, tab, indicator, panel.</li><li><strong>Usage</strong>Same-level content partitions.</li><li><strong>Accessibility</strong>Arrow keys move between tabs.</li><li><strong>Code</strong>Keep labels concise and stable.</li></ul></article>
+            <article class="component-card"><h3>23. Accordion</h3><div class="component-meta">Progressive disclosure</div><ul class="spec-list"><li><strong>Anatomy</strong>Header, icon, panel body.</li><li><strong>Usage</strong>Dense secondary content and filters.</li><li><strong>Accessibility</strong>Expose expanded state.</li><li><strong>Code</strong>Avoid janky height transitions.</li></ul></article>
+            <article class="component-card"><h3>24. Breadcrumb</h3><div class="component-meta">Hierarchical orientation</div><ul class="spec-list"><li><strong>Anatomy</strong>List, separators, current item.</li><li><strong>Usage</strong>Deep content or app hierarchies.</li><li><strong>Accessibility</strong>Use breadcrumb navigation landmark.</li><li><strong>Code</strong>Collapse middle items on narrow widths.</li></ul></article>
+            <article class="component-card"><h3>25. Pagination</h3><div class="component-meta">Large result sets</div><ul class="spec-list"><li><strong>Anatomy</strong>Prev, page items, next, optional size control.</li><li><strong>Usage</strong>When infinite scroll is not suitable.</li><li><strong>Accessibility</strong>Current page and disabled state announced.</li><li><strong>Code</strong>40px minimum controls.</li></ul></article>
+            <article class="component-card"><h3>26. Card</h3><div class="component-meta">Summary, preview, or grouped content</div><ul class="spec-list"><li><strong>Anatomy</strong>Container, optional media, title, body, actions.</li><li><strong>Usage</strong>Collections, summaries, previews.</li><li><strong>Accessibility</strong>Whole-card click only if unambiguous.</li><li><strong>Code</strong>24px padding, elevation shift on hover.</li></ul></article>
+            <article class="component-card"><h3>27. List item</h3><div class="component-meta">Navigation and dense rows</div><ul class="spec-list"><li><strong>Anatomy</strong>Leading visual, content block, trailing action/meta.</li><li><strong>Usage</strong>Settings, indexes, navigation lists.</li><li><strong>Accessibility</strong>Consistent hit area across row.</li><li><strong>Code</strong>56px comfortable height, 44px compact.</li></ul></article>
+            <article class="component-card"><h3>28. Table</h3><div class="component-meta">Structured, scannable data</div><ul class="spec-list"><li><strong>Anatomy</strong>Header, rows, cells, sort affordance.</li><li><strong>Usage</strong>Data-rich operational content.</li><li><strong>Accessibility</strong>Maintain real table semantics.</li><li><strong>Code</strong>44/52px rows, tabular numerals.</li></ul></article>
+            <article class="component-card"><h3>29. Data visualization card</h3><div class="component-meta">Metric plus interpretation</div><ul class="spec-list"><li><strong>Anatomy</strong>Title, metric, chart, legend, controls.</li><li><strong>Usage</strong>Trends and comparisons with immediate takeaway.</li><li><strong>Accessibility</strong>Include textual summary or table backup.</li><li><strong>Code</strong>Use neutral + primary + one support tone.</li></ul></article>
+            <article class="component-card"><h3>30. Modal dialog</h3><div class="component-meta">Focused blocking decision</div><ul class="spec-list"><li><strong>Anatomy</strong>Overlay, panel, title, body, footer, close.</li><li><strong>Usage</strong>Critical decisions and focused tasks.</li><li><strong>Accessibility</strong>Trap focus, support escape when appropriate.</li><li><strong>Code</strong>560px standard width.</li></ul></article>
+            <article class="component-card"><h3>31. Drawer / sheet</h3><div class="component-meta">Secondary workflow surface</div><ul class="spec-list"><li><strong>Anatomy</strong>Overlay, panel, header, body, footer.</li><li><strong>Usage</strong>Filters, details, side tasks.</li><li><strong>Accessibility</strong>Follow modal rules when blocking.</li><li><strong>Code</strong>Right drawer desktop, bottom sheet mobile.</li></ul></article>
+            <article class="component-card"><h3>32. Toast</h3><div class="component-meta">Lightweight transient feedback</div><ul class="spec-list"><li><strong>Anatomy</strong>Status icon, message, action, dismiss.</li><li><strong>Usage</strong>Non-blocking confirmations.</li><li><strong>Accessibility</strong>Use appropriate live region politeness.</li><li><strong>Code</strong>Auto-dismiss only for neutral/success.</li></ul></article>
+            <article class="component-card"><h3>33. Alert banner</h3><div class="component-meta">Persistent contextual message</div><ul class="spec-list"><li><strong>Anatomy</strong>Container, icon, message, optional action.</li><li><strong>Usage</strong>Warnings, information, feature state.</li><li><strong>Accessibility</strong>Do not steal focus unless critical.</li><li><strong>Code</strong>Can appear full-width or inline.</li></ul></article>
+            <article class="component-card"><h3>34. Empty state</h3><div class="component-meta">First-use or no-result guidance</div><ul class="spec-list"><li><strong>Anatomy</strong>Visual, title, description, actions.</li><li><strong>Usage</strong>Guide next step clearly.</li><li><strong>Accessibility</strong>Actions must be explicit and descriptive.</li><li><strong>Code</strong>Keep within 480px content width.</li></ul></article>
+            <article class="component-card"><h3>35. Skeleton loader</h3><div class="component-meta">Layout-matched loading state</div><ul class="spec-list"><li><strong>Anatomy</strong>Shimmer blocks mirroring eventual layout.</li><li><strong>Usage</strong>Content-heavy loads over spinners.</li><li><strong>Accessibility</strong>Mark region busy, not individual blocks.</li><li><strong>Code</strong>Subtle shimmer only.</li></ul></article>
+            <article class="component-card"><h3>36. Progress indicator</h3><div class="component-meta">Task progression or system work</div><ul class="spec-list"><li><strong>Anatomy</strong>Track, fill, optional label/value.</li><li><strong>Usage</strong>Uploads, setup steps, generation.</li><li><strong>Accessibility</strong>Expose min, max, and current values.</li><li><strong>Code</strong>4px default, 8px emphasized.</li></ul></article>
+            <article class="component-card"><h3>37. Avatar</h3><div class="component-meta">People and ownership markers</div><ul class="spec-list"><li><strong>Anatomy</strong>Image or initials, frame, status dot optional.</li><li><strong>Usage</strong>Profiles, collaborators, ownership.</li><li><strong>Accessibility</strong>Meaningful alt text where relevant.</li><li><strong>Code</strong>24, 32, 40, 56px sizes.</li></ul></article>
+            <article class="component-card"><h3>38. Navigation bar</h3><div class="component-meta">Top-level route structure</div><ul class="spec-list"><li><strong>Anatomy</strong>Brand, nav items, utilities, profile area.</li><li><strong>Usage</strong>Product and marketing shells.</li><li><strong>Accessibility</strong>Current route must be programmatically clear.</li><li><strong>Code</strong>64px desktop, 56px mobile.</li></ul></article>
+            <article class="component-card"><h3>39. Sidebar navigation</h3><div class="component-meta">Dense internal wayfinding</div><ul class="spec-list"><li><strong>Anatomy</strong>Section labels, items, icons, active rail.</li><li><strong>Usage</strong>Settings and multi-area products.</li><li><strong>Accessibility</strong>Collapsed labels still need accessible names.</li><li><strong>Code</strong>280px expanded, 80px collapsed.</li></ul></article>
+            <article class="component-card"><h3>40. Footer</h3><div class="component-meta">Utility closure and trust</div><ul class="spec-list"><li><strong>Anatomy</strong>Utility links, legal, support, optional status.</li><li><strong>Usage</strong>Site-wide support and completion.</li><li><strong>Accessibility</strong>Organize links semantically.</li><li><strong>Code</strong>Low visual weight with strong top divider.</li></ul></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="patterns">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Patterns</div>
+              <h2 class="section-title">How components work together</h2>
+              <p class="section-desc">Patterns prevent teams from inventing one-off assemblies. They define repeatable ways to structure forms, search, navigation, feedback, and mobile behavior.</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <article class="card"><h3>Forms</h3><p>Prefer single-column forms, group related inputs, validate with restraint, and keep helper text beneath fields rather than inside placeholders.</p></article>
+            <article class="card"><h3>Search and filters</h3><p>Search leads, filters support. Keep common filters visible and move advanced controls into a drawer or sheet.</p></article>
+            <article class="card"><h3>Navigation</h3><p>Use top nav for broad product areas, side nav for internal architecture, and breadcrumbs only where hierarchy truly matters.</p></article>
+            <article class="card"><h3>Feedback</h3><p>Use inline validation for field issues, toast for lightweight confirmation, banners for persistent context, and modal confirmations for irreversible actions.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="tokens">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Tokens</div>
+              <h2 class="section-title">Platform-agnostic JSON source</h2>
+              <p class="section-desc">Primitive tokens and semantic aliases should remain separate. Theme layers map these primitives into product usage across light and dark modes.</p>
+            </div>
+          </div>
+          <div class="code-block">
+<pre>{
+  "color": {
+    "primary": { "50": "#FFF1F1", "100": "#FFD9D8", "200": "#FFB3B0", "300": "#FF8A84", "400": "#FF5F57", "500": "#FF3B30", "600": "#E1271D", "700": "#B81C14", "800": "#8F1610", "900": "#6C110C" },
+    "neutral": { "0": "#FFFFFF", "25": "#FCFCFB", "50": "#F7F7F5", "100": "#EFEFEA", "200": "#E4E4DE", "300": "#D2D2CB", "400": "#A3A39B", "500": "#76766F", "600": "#575750", "700": "#41413C", "800": "#2B2B28", "900": "#1B1B19" },
+    "semantic": { "success": "#1F8A52", "warning": "#A86510", "danger": "#BF3B37", "info": "#2C6ECB" }
+  },
+  "typography": {
+    "fontFamily": {
+      "display": "Instrument Serif, Georgia, serif",
+      "body": "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    }
+  },
+  "space": { "1": 4, "2": 8, "4": 16, "5": 24, "6": 32, "8": 48, "11": 96 },
+  "radius": { "xs": 6, "sm": 8, "md": 12, "lg": 16, "xl": 24, "full": 999 },
+  "motion": {
+    "durationFast": "160ms",
+    "durationBase": "240ms",
+    "durationSlow": "320ms",
+    "easingStandard": "cubic-bezier(0.2, 0, 0, 1)"
+  }
+}</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="developer-guide">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Developer guide</div>
+              <h2 class="section-title">Design-to-code implementation model</h2>
+              <p class="section-desc">The system should compile from token source to semantic theme layer to component API. Product teams compose from the shared vocabulary instead of inventing visual rules locally.</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <article class="card">
+              <h3>Implementation guidance</h3>
+              <ul>
+                <li>Keep primitive and semantic tokens separate.</li>
+                <li>Drive themes with root-level data attributes.</li>
+                <li>Normalize component props around size, variant, tone, disabled, and loading.</li>
+                <li>Prefer enums over many booleans in component APIs.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Engineering QA</h3>
+              <ul>
+                <li>Test light, dark, reduced motion, and 200% zoom.</li>
+                <li>Review empty, loading, error, disabled, and success states.</li>
+                <li>Check long labels and localization expansion.</li>
+                <li>Validate keyboard and screen reader behavior in Storybook or an equivalent harness.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="governance">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Governance</div>
+              <h2 class="section-title">How the system stays coherent</h2>
+              <p class="section-desc">Good systems degrade when exceptions feel cheaper than alignment. Governance keeps the language coherent without slowing teams down.</p>
+            </div>
+          </div>
+          <div class="dosdonts">
+            <article class="card">
+              <h3>Do</h3>
+              <ul>
+                <li>Require anatomy, states, usage, accessibility, and code notes for every new component.</li>
+                <li>Version tokens and document migration paths.</li>
+                <li>Review changes to foundations against accessibility and regression criteria.</li>
+                <li>Compose patterns from shared parts before proposing new primitives.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Don’t</h3>
+              <ul>
+                <li>Introduce one-off shadows, spacing, or radius values inside product teams.</li>
+                <li>Use color or motion alone to carry meaning.</li>
+                <li>Ship components without disabled, focus, and error states.</li>
+                <li>Allow marketing flourish to reshape core product UI behavior.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          Dingbats Design System Review · HTML edition for internal review, critique, and iteration.
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const button = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      const applyLabel = () => {
+        button.textContent = theme === 'dark' ? 'Light' : 'Dark';
+        button.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      };
+      applyLabel();
+      button.addEventListener('click', () => {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        applyLabel();
+      });
+    })();
+  </script>
+</body>
+</html>
